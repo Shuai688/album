@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>3D魔方相册</title>
+  <body>
+    
+  <!-- 放置一个用于控制播放/暂停的按钮 -->  
+  <button class="cute-tag-button"  id="toggleButton" onclick="toggleAudio()">music</button>  
+    <style>
+    /* 可爱的标签按钮样式 */  
+    .cute-tag-button {  
+        display: inline-block;  
+        padding: 8px 16px;  
+        border-radius: 20px; /* 圆角 */  
+        background: linear-gradient(to right, #ff9966, #ff5e62); /* 渐变背景 */  
+        color: white;  
+        text-align: center;  
+        transition: background 0.3s ease; /* 过渡效果 */  
+        font-family: Arial, sans-serif;  
+        font-size: 16px;  
+        cursor: pointer;  
+        position: relative;  
+        overflow: hidden; /* 隐藏溢出的内容 */  
+    }  
+      
+    /* 添加一个可爱的装饰 */  
+    .cute-tag-button::after {  
+        content: '';  
+        position: absolute;  
+        top: 0;  
+        right: 0;  
+        width: 20px;  
+        height: 20px;  
+        background: white;  
+        border-radius: 50%; /* 圆形 */  
+        transform: translate(50%, -50%); /* 相对于自身移动 */  
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 阴影效果 */  
+    }  
+      
+    /* 悬停效果 */  
+    .cute-tag-button:hover {  
+        background: linear-gradient(to right, #ff5e62, #ff9966); /* 反向渐变背景 */  
+    }  
+    </style>  
+  <!-- JavaScript将在页面加载后创建<audio>元素 -->  
+  <script>  
+  // 页面加载完成后执行  
+  window.onload = function() {  
+      // 创建<audio>元素  
+      var audioElement = document.createElement('audio');  
+      audioElement.src = 'music.mp3'; // 替换为你的音频文件路径  
+      audioElement.preload = 'auto'; // 预加载音频  
+      audioElement.autoplay = true; // 尝试自动播放（可能会受浏览器策略影响）  
+      //audioElement.muted = true; // 初始状态为静音，以避免自动播放时的警告  
+  	audioElement.muted = false;
+  	audioElement.loop = true; // 音频将循环播放  
+  	audioElement.volume = 0.5; // 设置音量（0到1之间）
+    
+      // 将<audio>元素添加到body中  
+      document.body.appendChild(audioElement);  
+    
+      // 监听canplay事件，在音频准备好后尝试播放并取消静音  
+      audioElement.oncanplay = function() {  
+          audioElement.play().then(function() {  
+              // 播放成功，取消静音  
+              audioElement.muted = false;  
+          }).catch(function(error) {  
+              // 播放失败，可能是由于自动播放策略  
+              console.error('自动播放失败:', error);  
+    
+              // 可以提供一个用户交互来手动播放音频  
+              // 例如，在控制台上打印提示或显示一个播放按钮  
+              alert('由于浏览器策略，音乐未能自动播放。请点击上面的按钮以播放音乐。');  
+          });  
+      };  
+    
+      // 暴露audioElement给全局变量（可选，但方便在其他地方访问）  
+      window.audioElement = audioElement;  
+  };  
+    
+  // 切换音频播放/暂停的函数  
+  function toggleAudio() {  
+      var audioElement = window.audioElement || document.querySelector('audio');  
+      if (audioElement.paused) {  
+          audioElement.play();  
+      } else {  
+          audioElement.pause();  
+      }  
+  }  
+  </script>  
+    
+  </body>  
+  <style type="text/css">
+  body{
+    perspective: 2000px;
+	background-image: url(./img/背景图.jpg); 
+	background-size: 37%;
+	background-position: left;
+	background-color:black;
+  }
+    *{
+      margin: 0px;
+      padding: 0px;
+    }
+    .wrapper{
+      width: 200px;
+      height: 200px;
+      margin: 200px auto;
+      position: relative;
+      /* 设置关键帧动画 */
+      animation: inifiteAnimate 7s linear infinite;
+      /* 设置3D模型 */
+      transform-style: preserve-3d;
+
+    }
+     /* 关键帧动画 */
+    @keyframes inifiteAnimate{
+      0% {
+        transform: rotateX(0deg) rotateY(0deg);
+      }
+      100% {
+        transform: rotateX(360deg) rotateY(360deg);
+      }
+    }
+    .min-box, .max-box{
+      
+      width: 100%;
+      height: 100%;
+      /* 设置3D模型 */
+      transform-style: preserve-3d;
+      /* 居中 */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 2s;
+    }
+    .item{
+      opacity: 0.6;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: absolute;
+      transition: all 2s;  
+    }
+    .item1{
+      background-image: url(./img/1.jpg);
+      transform: translateZ(100px);
+    }
+    
+    .item2{
+      background-image: url(./img/2.jpg);
+      transform: rotateY(90deg) translateZ(100px);
+    }
+    .item3{
+      background-image: url(./img/3.jpg);
+      transform: rotateY(-90deg) translateZ(100px);
+    }
+    .item4{
+      background-image: url(./img/4.jpg);
+      transform: rotateY(-180deg) translateZ(100px);
+    }
+    .item5{
+      background-image: url(./img/5.jpg);
+      transform: rotateX(90deg) translateZ(100px);
+    }
+    .item6{
+      background-image: url(./img/6.jpg);
+      transform: rotateX(-90deg) translateZ(100px);
+    }
+    .wrapper:hover .max-box{
+      width: 300px;
+      height: 300px;
+    }
+    .wrapper:hover .max-box .item{
+      width: 300px;
+      height: 300px;
+    }
+    .wrapper:hover .max-box .item1{
+      transform: translateZ(300px);
+    }
+    .wrapper:hover .max-box .item2{
+      transform: rotateY(90deg) translateZ(300px);
+    }
+    .wrapper:hover .max-box .item3{
+      transform: rotateY(-90deg) translateZ(300px);
+    }
+    .wrapper:hover .max-box .item4{
+      transform: rotateY(-180deg) translateZ(300px);
+    }
+    .wrapper:hover .max-box .item5{
+      transform: rotateX(90deg) translateZ(300px);
+    }
+    .wrapper:hover .max-box .item6{
+      transform: rotateX(-90deg) translateZ(300px);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="min-box">
+      <div class="item item1"></div>
+      <div class="item item2"></div>
+      <div class="item item3"></div>
+      <div class="item item4"></div>
+      <div class="item item5"></div>
+      <div class="item item6"></div>
+    </div>
+    <div class="max-box">
+      <div class="item item1"></div>
+      <div class="item item2"></div>
+      <div class="item item3"></div>
+      <div class="item item4"></div>
+      <div class="item item5"></div>
+      <div class="item item6"></div>
+   </div>
+  </div>
+</body>
+
+
+</html>
